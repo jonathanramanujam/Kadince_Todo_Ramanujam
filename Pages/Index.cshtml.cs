@@ -21,6 +21,8 @@ namespace Kadince_Todo_Ramanujam.Pages
 
         [BindProperty]
         public IList<TodoItem> TodoItems { get; set; } = default!;
+        [BindProperty]
+        public TodoItem TodoItem { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -28,6 +30,18 @@ namespace Kadince_Todo_Ramanujam.Pages
             {
                 TodoItems = await _context.TodoItem.ToListAsync();
             }
+        }
+
+        public async Task<IActionResult> OnPostCreateTodoItem()
+        {
+            TodoItem.Complete = false;
+            TodoItem.CreationDate = DateTime.Now;
+
+            _context.TodoItem.Add(TodoItem);
+            await _context.SaveChangesAsync();
+            TodoItems = await _context.TodoItem.ToListAsync();
+
+            return Page();
         }
 
         public string TimeAlive(DateTime DateCreated)
@@ -41,11 +55,11 @@ namespace Kadince_Todo_Ramanujam.Pages
             {
                 return $"Added {span.Hours} hours ago";
             }
-            else if (span.Hours > 0)
+            else if (span.Minutes > 0)
             {
                 return $"Added {span.Minutes} minutes ago";
             }
-            return "This item has transcended time itself.";
+            return $"Just added";
         }
     }
 }

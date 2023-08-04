@@ -7,6 +7,15 @@
 <h1>TODO</h1>
 <hr />
 
+<form method="post">
+    <div class="form-group">
+        <label asp-for="TodoItem.Title" class="control-label"></label>
+        <input asp-for="TodoItem.Title" class="form-control" />
+        <span asp-validation-for="TodoItem.Title" class="text-danger"></span>
+    </div>
+    <button type="submit" asp-page-handler="CreateTodoItem" class="btn btn-outline-info" id="btnCreateTodoItem"> + Add Todo Item</button>
+</form>
+
 <table class="table">
     <tr>
         <th>
