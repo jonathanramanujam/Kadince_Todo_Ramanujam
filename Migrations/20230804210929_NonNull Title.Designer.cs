@@ -4,6 +4,7 @@ using Kadince_Todo_Ramanujam.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kadince_Todo_Ramanujam.Migrations
 {
     [DbContext(typeof(Kadince_Todo_RamanujamContext))]
-    partial class Kadince_Todo_RamanujamContextModelSnapshot : ModelSnapshot
+    [Migration("20230804210929_NonNull Title")]
+    partial class NonNullTitle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

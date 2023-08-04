@@ -21,6 +21,7 @@ namespace Kadince_Todo_Ramanujam.Pages
 
         [BindProperty]
         public IList<TodoItem> TodoItems { get; set; } = default!;
+
         [BindProperty]
         public TodoItem TodoItem { get; set; }
 
@@ -34,30 +35,40 @@ namespace Kadince_Todo_Ramanujam.Pages
 
         public async Task<IActionResult> OnPostCreateTodoItem()
         {
-            //TODO: Check Validity of TodoItem
-            TodoItem.Complete = false;
-            TodoItem.CreationDate = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                TodoItem.Complete = false;
+                TodoItem.CreationDate = DateTime.Now;
 
-            _context.TodoItem.Add(TodoItem);
-            await _context.SaveChangesAsync();
+                _context.TodoItem.Add(TodoItem);
+                await _context.SaveChangesAsync();
+            }
             return Redirect("/Index");
         }
 
-        public async Task<IActionResult> OnPostDeleteTodoItem(int id)
+        public async Task<IActionResult> OnPostDeleteTodoItem(int? id)
         {
-            //TODO Check validity of TodoItem
-            TodoItem = await _context.TodoItem.FindAsync(id);
+            if (id == null) { return NotFound(); }
+
+            TodoItem = await _context.TodoItem.FirstOrDefaultAsync(m => m.Id == id);
+            if (TodoItem == null) {  return NotFound(); }
+
             _context.TodoItem.Remove(TodoItem);
             await _context.SaveChangesAsync();
             return Redirect("/Index");
         }
 
-        public async Task<IActionResult> OnPostCompleteTodoItem(int id)
+        public async Task<IActionResult> OnPostCompleteTodoItem(int? id)
         {
-            TodoItem = await _context.TodoItem.FindAsync(id);
+            if (id == null) { return NotFound(); }
+
+            TodoItem = await _context.TodoItem.FirstOrDefaultAsync(m => m.Id == id);
+            if (TodoItem == null) { return NotFound(); }
+
             TodoItem.Complete = !TodoItem.Complete;
             _context.Attach(TodoItem).State=EntityState.Modified;
             await _context.SaveChangesAsync();
+
             return Redirect("/Index");
         }
 
