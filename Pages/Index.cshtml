@@ -1,10 +1,42 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "TODO List";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>TODO</h1>
+<hr />
+
+<table class="table">
+    <tr>
+        <th>
+            Task
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Lifetime
+        </th>
+    </tr>
+    @foreach (var item in Model.TodoItems)
+    {
+        <tr>
+            <th>
+                @item.Title
+            </th>
+            <th>
+                @if (item.Complete){
+                    <p>Complete</p>
+                }
+                else
+                {
+                    <p>Incomplete</p>
+                }
+            </th>
+            <th>
+                @Model.TimeAlive(item.CreationDate)
+            </th>
+        </tr>
+    }
+</table>
