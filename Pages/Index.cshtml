@@ -38,6 +38,12 @@
                 @item.Title
             </th>
             <th>
+                <form method="post">
+                    <label class="form-check-label">
+                        <input type="hidden" class="form-check-label" name="id" value="@item.Id" />
+                        <input type="submit" asp-page-handler="CompleteTodoItem" class="form-check-label" asp-for="TodoItem.Complete" />
+                    </label>
+                </form>
                 @if (item.Complete){
                     <p>Complete</p>
                 }

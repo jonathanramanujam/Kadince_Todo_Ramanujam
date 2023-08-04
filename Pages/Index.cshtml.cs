@@ -52,6 +52,15 @@ namespace Kadince_Todo_Ramanujam.Pages
             return Redirect("/Index");
         }
 
+        public async Task<IActionResult> OnPostCompleteTodoItem(int id)
+        {
+            TodoItem = await _context.TodoItem.FindAsync(id);
+            TodoItem.Complete = !TodoItem.Complete;
+            _context.Attach(TodoItem).State=EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Redirect("/Index");
+        }
+
         public string TimeAlive(DateTime DateCreated)
         {
             TimeSpan span = DateTime.Now - DateCreated;
