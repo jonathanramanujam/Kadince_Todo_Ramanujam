@@ -34,14 +34,22 @@ namespace Kadince_Todo_Ramanujam.Pages
 
         public async Task<IActionResult> OnPostCreateTodoItem()
         {
+            //TODO: Check Validity of TodoItem
             TodoItem.Complete = false;
             TodoItem.CreationDate = DateTime.Now;
 
             _context.TodoItem.Add(TodoItem);
             await _context.SaveChangesAsync();
-            TodoItems = await _context.TodoItem.ToListAsync();
+            return Redirect("/Index");
+        }
 
-            return Page();
+        public async Task<IActionResult> OnPostDeleteTodoItem(int id)
+        {
+            //TODO Check validity of TodoItem
+            TodoItem = await _context.TodoItem.FindAsync(id);
+            _context.TodoItem.Remove(TodoItem);
+            await _context.SaveChangesAsync();
+            return Redirect("/Index");
         }
 
         public string TimeAlive(DateTime DateCreated)

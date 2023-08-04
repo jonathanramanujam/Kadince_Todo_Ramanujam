@@ -27,6 +27,9 @@
         <th>
             Lifetime
         </th>
+        <th>
+            Remove
+        </th>
     </tr>
     @foreach (var item in Model.TodoItems)
     {
@@ -45,6 +48,12 @@
             </th>
             <th>
                 @Model.TimeAlive(item.CreationDate)
+            </th>
+            <th>
+                <form method="post">
+                    <input type="hidden" name="id" value="@item.Id" />
+                    <button type="submit" asp-page-handler="DeleteTodoItem" class="btn btn-warning" id="btnDeleteTodoItem">Remove</button>
+                </form>
             </th>
         </tr>
     }
