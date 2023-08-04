@@ -1,7 +1,12 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Kadince_Todo_Ramanujam.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<Kadince_Todo_RamanujamContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Kadince_Todo_RamanujamContext") ?? throw new InvalidOperationException("Connection string 'Kadince_Todo_RamanujamContext' not found.")));
 
 var app = builder.Build();
 
