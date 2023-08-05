@@ -33,6 +33,11 @@ namespace Kadince_Todo_Ramanujam.Pages
             }
         }
 
+        /// <summary>
+        /// Creates a new TODO item in the TODO List.
+        /// CreationDate is set to Now, and the item is set to incomplete.
+        /// </summary>
+        /// <returns>Redirect to Index</returns>
         public async Task<IActionResult> OnPostCreateTodoItem()
         {
             if (ModelState.IsValid)
@@ -46,6 +51,11 @@ namespace Kadince_Todo_Ramanujam.Pages
             return Redirect("/Index");
         }
 
+        /// <summary>
+        /// Deletes the selected TODO item in the TODO List.
+        /// </summary>
+        /// <param name="id">The id of the item to be deleted</param>
+        /// <returns>Redirect to Index</returns>
         public async Task<IActionResult> OnPostDeleteTodoItem(int? id)
         {
             if (id == null) { return NotFound(); }
@@ -58,6 +68,12 @@ namespace Kadince_Todo_Ramanujam.Pages
             return Redirect("/Index");
         }
 
+        /// <summary>
+        /// Updates the selected TODO item's status.
+        /// Alternates Complete between True and False
+        /// </summary>
+        /// <param name="id">The id of the item to be updated</param>
+        /// <returns>Redirect to Index</returns>
         public async Task<IActionResult> OnPostCompleteTodoItem(int? id)
         {
             if (id == null) { return NotFound(); }
@@ -72,19 +88,41 @@ namespace Kadince_Todo_Ramanujam.Pages
             return Redirect("/Index");
         }
 
+        public async Task<IActionResult> OnPostEditTodoItem(int? id)
+        {
+            return Redirect("/Index");
+        }
+
+        /// <summary>
+        /// Calculates the time that the item has been alive.
+        /// </summary>
+        /// <param name="DateCreated">CreationDate of the TODO item</param>
+        /// <returns>Minutes, Hours, or Days that an item has been in the list.</returns>
         public string TimeAlive(DateTime DateCreated)
         {
             TimeSpan span = DateTime.Now - DateCreated;
             if (span.Days > 0)
             {
+                if (span.Days == 1)
+                {
+                    return $"Added {span.Days} day ago";
+                }
                 return $"Added {span.Days} days ago";
             }
             else if (span.Hours > 0)
             {
+                if (span.Hours == 1)
+                {
+                    return $"Added {span.Hours} hour ago";
+                }
                 return $"Added {span.Hours} hours ago";
             }
             else if (span.Minutes > 0)
             {
+                if (span.Minutes == 1)
+                {
+                    return $"Added {span.Minutes} minute ago";
+                }
                 return $"Added {span.Minutes} minutes ago";
             }
             return $"Just added";

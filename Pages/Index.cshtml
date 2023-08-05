@@ -12,58 +12,69 @@
 
 <form method="post">
     <div class="form-group">
-        <label asp-for="TodoItem.Title" class="control-label"></label>
-        <input asp-for="TodoItem.Title" class="form-control" />
+        <input asp-for="TodoItem.Title" class="form-control"/>
         <span asp-validation-for="TodoItem.Title" class="text-danger"></span>
+        <button type="submit" asp-page-handler="CreateTodoItem" class="btn btn-primary" id="btnCreateTodoItem">&#10010;</button>
     </div>
-    <button type="submit" asp-page-handler="CreateTodoItem" class="btn btn-outline-info" id="btnCreateTodoItem"> + Add Todo Item</button>
 </form>
 
-<table class="table">
-    <tr>
-        <th>
-            Task
-        </th>
-        <th>
-            Status
-        </th>
-        <th>
-            Lifetime
-        </th>
-        <th>
-            Remove
-        </th>
-    </tr>
+<div class="row-cols-md-3 row">
     @foreach (var item in Model.TodoItems)
     {
-        <tr>
-            <th>
-                @item.Title
-            </th>
-            <th>
-                <form method="post">
-                    <label class="form-check-label">
-                        <input type="hidden" class="form-check-label" name="id" value="@item.Id" />
-                        <input type="submit" asp-page-handler="CompleteTodoItem" class="form-check-label" asp-for="TodoItem.Complete" />
-                    </label>
-                </form>
-                @if (item.Complete){
-                    <p>Complete</p>
+        <div class="card">
+            <h5>
+                @if (item.Complete)
+                {
+                    <s>@item.Title</s>
                 }
                 else
                 {
-                    <p>Incomplete</p>
+                    @item.Title
                 }
-            </th>
-            <th>
-                @Model.TimeAlive(item.CreationDate)
-            </th>
-            <th>
-                <form method="post">
-                    <input type="hidden" name="id" value="@item.Id" />
-                    <button type="submit" asp-page-handler="DeleteTodoItem" class="btn btn-warning" id="btnDeleteTodoItem">Remove</button>
-                </form>
-            </th>
-        </tr>
+            </h5>
+            <div class="text-secondary small">
+                Details
+            </div>
+            <hr />
+            <div class="row-cols-md-2">
+                <div class="btn-group gradient-buttons row-cols-md-3">
+                    <div>
+                        @if (item.Complete)
+                        {
+                            <form method="post">
+                                <label class="form-check-label">
+                                    <input type="hidden" class="form-check-label" name="id" value="@item.Id" />
+                                    <button type="submit" asp-page-handler="CompleteTodoItem" class="btn btn-success" asp-for="TodoItem.Complete">&#x2713;</button>
+                                </label>
+                            </form>
+                        }
+                        else
+                        {
+                            <form method="post">
+                                <label class="form-check-label">
+                                    <input type="hidden" class="form-check-label" name="id" value="@item.Id" />
+                                    <button type="submit" asp-page-handler="CompleteTodoItem" class="btn btn-outline-secondary" asp-for="TodoItem.Complete">&mdash;</button>
+                                </label>
+                            </form>
+                        }
+                    </div>
+                    <div>
+                        <form method="post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" asp-page-handler="EditTodoItem" class="btn btn-warning" id="btnEditTodoItem">&#9998;</button>
+                        </form>
+                    </div>
+                    <div>
+                        <form method="post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" asp-page-handler="DeleteTodoItem" class="btn btn-danger" id="btnDeleteTodoItem">&#10008;</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="text-secondary small text-right">
+                    @Model.TimeAlive(item.CreationDate)
+                </div>
+            </div>
+        </div>
     }
-</table>
+</div>
