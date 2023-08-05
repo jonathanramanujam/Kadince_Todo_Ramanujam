@@ -11,10 +11,14 @@
 <hr />
 
 <form method="post">
-    <div class="form-group">
-        <input asp-for="TodoItem.Title" class="form-control"/>
-        <span asp-validation-for="TodoItem.Title" class="text-danger"></span>
-        <button type="submit" asp-page-handler="CreateTodoItem" class="btn btn-primary" id="btnCreateTodoItem">&#10010;</button>
+    <div class="input-group row-cols-2">
+        <div>
+            <input asp-for="TodoItem.Title" class="form-control"/>
+            <span asp-validation-for="TodoItem.Title" class="text-danger"></span>
+        </div>
+        <div>
+            <button type="submit" asp-page-handler="CreateTodoItem" class="btn btn-primary" id="btnCreateTodoItem">&#10010;</button>
+        </div>
     </div>
 </form>
 
@@ -33,7 +37,14 @@
                 }
             </h5>
             <div class="text-secondary small">
-                Details
+                @if (item.Complete)
+                {
+                    <s>@item.Details</s>
+                }
+                else
+                {
+                    @item.Details
+                }
             </div>
             <hr />
             <div class="row-cols-md-2">
