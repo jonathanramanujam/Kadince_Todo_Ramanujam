@@ -88,8 +88,16 @@ namespace Kadince_Todo_Ramanujam.Pages
             return Redirect("/Index");
         }
 
-        public async Task<IActionResult> OnPostEditTodoItem(int? id)
+        /// <summary>
+        /// Saves edits to a todo item's Title or Details.
+        /// </summary>
+        /// <returns>Redirect to Index</returns>
+        public async Task<IActionResult> OnPostEditTodoItem()
         {
+            if (TodoItem == null) { return NotFound(); }
+            _context.Attach(TodoItem).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
             return Redirect("/Index");
         }
 
