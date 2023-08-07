@@ -22,13 +22,31 @@
         </div>
     </div>
 </form>
+<hr />
+
+@*Filters*@
+<div class="btn-group gradient-buttons" id="btn-filters">
+    <form method="get">
+        <input type="hidden" asp-for="Filter" value="all" />
+        <button type="submit" class="btn btn btn-outline-secondary" id="btn-filter-all">All</button>
+    </form>
+    <form method="get">
+        <input type="hidden" asp-for="Filter" value="complete" />
+        <button type="submit" class="btn btn btn-outline-secondary" id="btn-filter-complete">Complete</button>
+    </form>
+    <form method="get">
+        <input type="hidden" asp-for="Filter" value="incomplete" />
+        <button type="submit" class="btn btn btn-outline-secondary" id="btn-filter-incomplete">Incomplete</button>
+    </form>
+</div>
 
 @*Todo Item Cards*@
 <div class="row-cols-md-3 row">
     @foreach (var item in Model.TodoItems)
     {
-        <div class="card">
-            <div style="display:none" class="TodoEdit" id="@string.Format("TodoEdit" + item.Id)">
+        <div class="card card-todo @string.Format("fComplete-"+ item.Complete)">
+            @*Edit Card*@
+            <div style="display:none" class="card-todo-edit" id="@string.Format("TodoEdit" + item.Id)">
                 <form method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="TodoItem.Id" value="@item.Id"/>
@@ -51,7 +69,8 @@
                     </div>
                 </form>
             </div>
-            <div class="TodoInfo" id="@string.Format("TodoInfo" + item.Id)">
+            @*Display*@
+            <div class="card-todo-display" id="@string.Format("TodoDisplay" + item.Id)">
                 @*Title*@
                 <h5>
                     @if (item.Complete)
@@ -82,6 +101,7 @@
                             @if (item.Complete)
                             {
                                 <form method="post">
+                                    <input type="hidden" asp-for="Filter" value="@Model.Filter" />
                                     <label class="form-check-label">
                                         <input type="hidden" class="form-check-label" name="id" value="@item.Id" />
                                         <button type="submit" asp-page-handler="CompleteTodoItem" class="btn btn-success" asp-for="TodoItem.Complete">&#x2713;</button>
@@ -101,10 +121,6 @@
                         @*Edit Button*@
                         <div>
                             <button onclick="EditTodoItem(@item.Id)" class="btn btn-warning" id="btnEditTodoItem">&#9998;</button>
-                            @*<form method="post">
-                                <input type="hidden" name="id" value="@item.Id" />
-                                <button type="submit" asp-page-handler="EditTodoItem" class="btn btn-warning" id="btnEditTodoItem">&#9998;</button>
-                            </form>*@
 
                         </div>
                         @*Delete Button*@

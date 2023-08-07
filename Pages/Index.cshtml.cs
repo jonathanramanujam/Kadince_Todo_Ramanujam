@@ -25,12 +25,25 @@ namespace Kadince_Todo_Ramanujam.Pages
         [BindProperty]
         public TodoItem TodoItem { get; set; }
 
+        [BindProperty(SupportsGet=true)]
+        public string? Filter { get; set; }
+
         public async Task OnGetAsync()
         {
-            if (_context.TodoItem != null)
+            IQueryable<TodoItem> query = from x in _context.TodoItem select x;
+            switch (Filter)
             {
-                TodoItems = await _context.TodoItem.ToListAsync();
+                case "all":
+                    break;
+                case "complete":
+                    query = query.Where(x => x.Complete == true);
+                    break;
+                case "incomplete":
+                    query = query.Where(x => x.Complete == false);
+                    break;
             }
+            TodoItems = query.ToList();
+
         }
 
         /// <summary>
