@@ -1,4 +1,5 @@
 ﻿@page
+@using Microsoft.AspNetCore.Http
 @model IndexModel
 @{
     ViewData["Title"] = "TODO List";
@@ -26,10 +27,12 @@
 
 @*Filters*@
 <div class="btn-group gradient-buttons" id="btn-filters">
-    <form method="get">
-        <input type="hidden" asp-for="Filter" value="all" />
-        <button type="submit" class="btn btn btn-outline-secondary" id="btn-filter-all">All</button>
-    </form>
+    <form method="post">
+        <button type="submit" asp-page-handler="FilterTodoItems" class="btn btn btn-outline-secondary" id="btn-filter-all">Filter</button>
+        <input class="form-check-input" asp-for="FilterAll" /> All
+        <input class="form-check-input" asp-for="FilterComplete" /> Complete
+        <input class="form-check-input" asp-for="FilterIncomplete" /> Incomplete
+    </form>@*
     <form method="get">
         <input type="hidden" asp-for="Filter" value="complete" />
         <button type="submit" class="btn btn btn-outline-secondary" id="btn-filter-complete">Complete</button>
@@ -37,7 +40,7 @@
     <form method="get">
         <input type="hidden" asp-for="Filter" value="incomplete" />
         <button type="submit" class="btn btn btn-outline-secondary" id="btn-filter-incomplete">Incomplete</button>
-    </form>
+    </form>*@
 </div>
 
 @*Todo Item Cards*@
@@ -101,7 +104,6 @@
                             @if (item.Complete)
                             {
                                 <form method="post">
-                                    <input type="hidden" asp-for="Filter" value="@Model.Filter" />
                                     <label class="form-check-label">
                                         <input type="hidden" class="form-check-label" name="id" value="@item.Id" />
                                         <button type="submit" asp-page-handler="CompleteTodoItem" class="btn btn-success" asp-for="TodoItem.Complete">&#x2713;</button>

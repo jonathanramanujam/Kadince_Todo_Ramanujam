@@ -7,11 +7,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Kadince_Todo_Ramanujam.Data;
 using Kadince_Todo_Ramanujam.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Kadince_Todo_Ramanujam.Pages
 {
     public class IndexModel : PageModel
     {
+        public const string _FilterAll = "_FilterAll";
+        public const string _FilterComplete = "_FilterComplete";
+        public const string _FilterIncomplete = "_FilterIncomplete";
+
         private readonly Kadince_Todo_Ramanujam.Data.Kadince_Todo_RamanujamContext _context;
 
         public IndexModel(Kadince_Todo_Ramanujam.Data.Kadince_Todo_RamanujamContext context)
@@ -25,25 +30,79 @@ namespace Kadince_Todo_Ramanujam.Pages
         [BindProperty]
         public TodoItem TodoItem { get; set; }
 
-        [BindProperty(SupportsGet=true)]
-        public string? Filter { get; set; }
+        //[BindProperty(SupportsGet=true)]
+        //public string? Filter { get; set; }
+
+        [BindProperty]
+        public bool FilterAll { get; set; }
+
+        [BindProperty]
+        public bool FilterComplete { get; set; }
+
+        [BindProperty]
+        public bool FilterIncomplete { get; set; }
 
         public async Task OnGetAsync()
         {
             IQueryable<TodoItem> query = from x in _context.TodoItem select x;
-            switch (Filter)
+
+            // If this is a new session, set the filter to all
+            if (HttpContext.Session.GetInt32(_FilterAll) is null)
             {
-                case "all":
-                    break;
-                case "complete":
+                HttpContext.Session.SetInt32(_FilterAll, 1);
+            }
+            // If this is an existing session, retain filters between requests
+            else if (HttpContext.Session.GetInt32(_FilterAll) == 0)
+            {
+                if (HttpContext.Session.GetInt32(_FilterComplete) == 1)
+                {
                     query = query.Where(x => x.Complete == true);
-                    break;
-                case "incomplete":
+                }
+                if (HttpContext.Session.GetInt32(_FilterIncomplete) == 1)
+                {
                     query = query.Where(x => x.Complete == false);
-                    break;
+                }
             }
             TodoItems = query.ToList();
+        }
 
+        /// <summary>
+        /// Posts filters to the session, so as to retain them between requests.
+        /// </summary>
+        /// <returns>Redirect to Index</returns>
+        public async Task<IActionResult> OnPostFilterTodoItems()
+        {
+            // If filter all is ever selected, or every filter is selected, set all filters to 0
+            if (FilterAll || (FilterComplete && FilterIncomplete))
+            {
+                HttpContext.Session.SetInt32(_FilterAll, 1);
+                HttpContext.Session.SetInt32(_FilterComplete, 0);
+                HttpContext.Session.SetInt32(_FilterIncomplete, 0);
+
+            }
+            // Otherwise, set each individual filter
+            else
+            {
+                HttpContext.Session.SetInt32(_FilterAll, 0);
+                if (FilterComplete)
+                {
+                    HttpContext.Session.SetInt32(_FilterComplete, 1);
+                }
+                else
+                {
+                    HttpContext.Session.SetInt32(_FilterComplete, 0);
+                }
+
+                if (FilterIncomplete)
+                {
+                    HttpContext.Session.SetInt32(_FilterIncomplete, 1);
+                }
+                else
+                {
+                    HttpContext.Session.SetInt32(_FilterIncomplete, 0);
+                }
+            }
+            return Redirect("/Index");
         }
 
         /// <summary>
