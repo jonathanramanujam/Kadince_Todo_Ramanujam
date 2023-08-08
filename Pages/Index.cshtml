@@ -90,52 +90,36 @@
             </div>
             @*Display*@
             <div class="card-todo-display" id="@string.Format("TodoDisplay" + item.Id)">
-                @*Title*@
-                <h5>
-                    @if (item.Complete)
-                    {
-                        <s>@item.Title</s>
-                    }
-                    else
-                    {
-                        @item.Title
-                    }
-                </h5>
-                @*Details*@
-                <div class="text-secondary small">
-                    @if (item.Complete)
-                    {
-                        <s>- @item.Details</s>
-                    }
-                    else
-                    {
-                        <p>- @item.Details</p>
-                    }
-                </div>
-                <hr />
-                <div class="row-cols-md-2">
-                    <div class="btn-group gradient-buttons row-cols-md-3">
-                        @*Complete Button*@
-                        <div>
+                <form method="post">
+                    <input type="hidden" name="id" value="@item.Id" />
+                    <button type="submit" class="btn btn-light" style="width:100%" asp-page-handler="CompleteTodoItem" asp-for="TodoItem.Complete">
+                        @*Title*@
+                        <h5>
                             @if (item.Complete)
                             {
-                                <form method="post">
-                                    <label class="form-check-label">
-                                        <input type="hidden" class="form-check-label" name="id" value="@item.Id" />
-                                        <button type="submit" asp-page-handler="CompleteTodoItem" class="btn btn-success" asp-for="TodoItem.Complete">&#x2713;</button>
-                                    </label>
-                                </form>
+                                <s>@item.Title</s>
                             }
                             else
                             {
-                                <form method="post">
-                                    <label class="form-check-label">
-                                        <input type="hidden" class="form-check-label" name="id" value="@item.Id" />
-                                        <button type="submit" asp-page-handler="CompleteTodoItem" class="btn btn-outline-secondary" asp-for="TodoItem.Complete">&mdash;</button>
-                                    </label>
-                                </form>
+                                @item.Title
+                            }
+                        </h5>
+                        @*Details*@
+                        <div class="text-secondary small">
+                            @if (item.Complete)
+                            {
+                                <s style="margin:0px">- @item.Details</s>
+                            }
+                            else
+                            {
+                                <p style="margin:0px">- @item.Details</p>
                             }
                         </div>
+                    </button>
+                </form>
+                <hr />
+                <div class="row-cols-md-2">
+                    <div class="btn-group gradient-buttons row-cols-md-3">
                         @*Edit Button*@
                         <div>
                             <button onclick="EditTodoItem(@item.Id)" class="btn btn-warning" id="btnEditTodoItem">&#9998;</button>
