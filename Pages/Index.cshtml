@@ -28,32 +28,38 @@
 @*Filters*@
 <div class="btn-group gradient-buttons" id="btn-filters">
     <form method="post">
-        <button type="submit" asp-page-handler="FilterTodoItems" class="btn btn btn-outline-secondary" id="btn-filter-all">Filter</button>
+        <input type="checkbox" hidden asp-for="FilterAll" checked/>
         @if (HttpContext.Session.GetInt32("_FilterAll") == 1)
         {
-            <input type="checkbox" class="form-check-input" asp-for="FilterAll" checked/>          
+            <button type="submit" class="btn btn-primary" asp-page-handler="FilterTodoItems" />
         }
         else
         {
-            <input type="checkbox" class="form-check-input" asp-for="FilterAll"/>
+            <button type="submit" class="btn btn-outline-primary" asp-page-handler="FilterTodoItems" />
         }
         All
+    </form>
+    <form method="post">
+        <input type="checkbox" hidden asp-for="FilterComplete" checked />
         @if (HttpContext.Session.GetInt32("_FilterComplete") == 1)
         {
-            <input type="checkbox" class="form-check-input" asp-for="FilterComplete" checked />
+            <button type="submit" class="btn btn-primary" asp-page-handler="FilterTodoItems" />
         }
         else
         {
-            <input type="checkbox" class="form-check-input" asp-for="FilterComplete" />
+            <button type="submit" class="btn btn-outline-primary" asp-page-handler="FilterTodoItems" />
         }
         Complete
+    </form>
+    <form method="post">
+        <input type="checkbox" hidden asp-for="FilterIncomplete" checked />
         @if (HttpContext.Session.GetInt32("_FilterIncomplete") == 1)
         {
-            <input type="checkbox" class="form-check-input" asp-for="FilterIncomplete" checked />
+            <button type="submit" class="btn btn-primary" asp-page-handler="FilterTodoItems" />
         }
         else
         {
-            <input type="checkbox" class="form-check-input" asp-for="FilterIncomplete" />
+            <button type="submit" class="btn btn-outline-primary" asp-page-handler="FilterTodoItems" />
         }
         Incomplete
     </form>
