@@ -29,18 +29,34 @@
 <div class="btn-group gradient-buttons" id="btn-filters">
     <form method="post">
         <button type="submit" asp-page-handler="FilterTodoItems" class="btn btn btn-outline-secondary" id="btn-filter-all">Filter</button>
-        <input class="form-check-input" asp-for="FilterAll" /> All
-        <input class="form-check-input" asp-for="FilterComplete" /> Complete
-        <input class="form-check-input" asp-for="FilterIncomplete" /> Incomplete
-    </form>@*
-    <form method="get">
-        <input type="hidden" asp-for="Filter" value="complete" />
-        <button type="submit" class="btn btn btn-outline-secondary" id="btn-filter-complete">Complete</button>
+        @if (HttpContext.Session.GetInt32("_FilterAll") == 1)
+        {
+            <input type="checkbox" class="form-check-input" asp-for="FilterAll" checked/>          
+        }
+        else
+        {
+            <input type="checkbox" class="form-check-input" asp-for="FilterAll"/>
+        }
+        All
+        @if (HttpContext.Session.GetInt32("_FilterComplete") == 1)
+        {
+            <input type="checkbox" class="form-check-input" asp-for="FilterComplete" checked />
+        }
+        else
+        {
+            <input type="checkbox" class="form-check-input" asp-for="FilterComplete" />
+        }
+        Complete
+        @if (HttpContext.Session.GetInt32("_FilterIncomplete") == 1)
+        {
+            <input type="checkbox" class="form-check-input" asp-for="FilterIncomplete" checked />
+        }
+        else
+        {
+            <input type="checkbox" class="form-check-input" asp-for="FilterIncomplete" />
+        }
+        Incomplete
     </form>
-    <form method="get">
-        <input type="hidden" asp-for="Filter" value="incomplete" />
-        <button type="submit" class="btn btn btn-outline-secondary" id="btn-filter-incomplete">Incomplete</button>
-    </form>*@
 </div>
 
 @*Todo Item Cards*@
