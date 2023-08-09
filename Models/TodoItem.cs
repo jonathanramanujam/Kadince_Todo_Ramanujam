@@ -9,5 +9,6 @@ namespace Kadince_Todo_Ramanujam.Models
         public string? Details { get; set; }
         public DateTime CreationDate { get; set; }
         public bool Complete { get; set; }
+        public string Color { get; set; }
     }
 }

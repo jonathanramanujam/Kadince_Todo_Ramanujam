@@ -20,7 +20,12 @@ namespace Kadince_Todo_Ramanujam.Pages
         public const string _FilterIncomplete = "_FilterIncomplete";
 
         //Colors
-        //public Color Yellow = Color.LightYellow;
+        public string Purple = "#EADEFC";
+        public string Blue = "#C9E8FF";
+        public string Green = "#E3FFE9";
+        public string Yellow = "#FFFFE3";
+        public string Orange = "#FFE5C4";
+        public string Red = "#FFCAC9";
 
         private readonly Kadince_Todo_Ramanujam.Data.Kadince_Todo_RamanujamContext _context;
 
@@ -34,9 +39,6 @@ namespace Kadince_Todo_Ramanujam.Pages
 
         [BindProperty]
         public TodoItem TodoItem { get; set; }
-
-        //[BindProperty(SupportsGet=true)]
-        //public string? Filter { get; set; }
 
         [BindProperty]
         public bool FilterAll { get; set; }
@@ -117,11 +119,12 @@ namespace Kadince_Todo_Ramanujam.Pages
         /// <returns>Redirect to Index</returns>
         public async Task<IActionResult> OnPostCreateTodoItem()
         {
+            TodoItem.Complete = false;
+            TodoItem.CreationDate = DateTime.Now;
+            TodoItem.Color = Yellow;
+
             if (ModelState.IsValid)
             {
-                TodoItem.Complete = false;
-                TodoItem.CreationDate = DateTime.Now;
-
                 _context.TodoItem.Add(TodoItem);
                 await _context.SaveChangesAsync();
             }
