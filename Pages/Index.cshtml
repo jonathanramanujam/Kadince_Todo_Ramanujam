@@ -18,9 +18,36 @@
             <button type="submit" asp-page-handler="CreateTodoItem" class="btn btn-primary" id="btnCreateTodoItem">&#10010;</button>
         </div>
         <div class="col-auto">
-            <input hidden asp-for="TodoItem.Color" value="@Model.Yellow"/>
-            <input asp-for="TodoItem.Title" class="form-control" style="width:200%"/>
+            <input asp-for="TodoItem.Title" class="form-control" style="width:200%; margin-bottom:5px;" placeholder="Add a title"/>
             <span asp-validation-for="TodoItem.Title" class="text-danger"></span>
+            <input asp-for="TodoItem.Details" class="form-control" style="width:200%; margin-bottom:5px;" placeholder="Add some details" />
+            <span asp-validation-for="TodoItem.Details" class="text-danger"> </span>
+        </div>
+        <div class="btn-group-sm btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary" style="background-color:@Model.Purple; color:black">
+                <input type="radio" asp-for="TodoItem.Color" value="@Model.Purple" id="purple" autocomplete="off">
+                Purple
+            </label>
+            <label class="btn btn-secondary" style="background-color:@Model.Blue; color:black">
+                <input type="radio" asp-for="TodoItem.Color" value="@Model.Blue" id="blue" autocomplete="off">
+                Blue
+            </label>
+            <label class="btn btn-secondary" style="background-color:@Model.Green; color:black">
+                <input type="radio" asp-for="TodoItem.Color" value="@Model.Green" id="green" autocomplete="off">
+                Green
+            </label>
+            <label class="btn btn-secondary" style="background-color:@Model.Yellow; color:black">
+                <input type="radio" asp-for="TodoItem.Color" value="@Model.Yellow" id="yellow" autocomplete="off" checked>
+                Yellow
+            </label>
+            <label class="btn btn-secondary" style="background-color:@Model.Orange; color:black">
+                <input type="radio" asp-for="TodoItem.Color" value="@Model.Orange" id="orange" autocomplete="off">
+                Orange
+            </label>
+            <label class="btn btn-secondary" style="background-color:@Model.Red; color:black">
+                <input type="radio" asp-for="TodoItem.Color" value="@Model.Red" id="red" autocomplete="off">
+                Red
+            </label>
         </div>
     </div>
 </form>
@@ -127,15 +154,15 @@
                         </label>
 
                         <label class="btn btn-secondary" style="background-color:@Model.Yellow; color:black">
-                        @if (item.Color == Model.Yellow)
-                        {
-                            <input type="radio" asp-for="TodoItem.Color" value="@Model.Yellow" id="yellow" autocomplete="off" checked>
-                        }
-                        else
-                        {
-                            <input type="radio" asp-for="TodoItem.Color" value="@Model.Yellow" id="yellow" autocomplete="off">
-                        }
-                        Yellow
+                            @if (item.Color == Model.Yellow)
+                            {
+                                <input type="radio" asp-for="TodoItem.Color" value="@Model.Yellow" id="yellow" autocomplete="off" checked>
+                            }
+                            else
+                            {
+                                <input type="radio" asp-for="TodoItem.Color" value="@Model.Yellow" id="yellow" autocomplete="off">
+                            }
+                            Yellow
                         </label>
 
                         <label class="btn btn-secondary" style="background-color:@Model.Orange; color:black">
@@ -173,7 +200,7 @@
             <div class="card-todo-display" id="@string.Format("TodoDisplay" + item.Id)">
                 <form method="post">
                     <input type="hidden" name="id" value="@item.Id" />
-                    <button type="submit" class="btn btn-light" style="width:100%; background-color:transparent;" asp-page-handler="CompleteTodoItem" asp-for="TodoItem.Complete">
+                    <button type="submit" class="btn btn-light border-0" style="width:100%; background-color:transparent;" asp-page-handler="CompleteTodoItem" asp-for="TodoItem.Complete">
                         @*Title*@
                         <h5>
                             @if (item.Complete)

@@ -121,7 +121,6 @@ namespace Kadince_Todo_Ramanujam.Pages
         {
             TodoItem.Complete = false;
             TodoItem.CreationDate = DateTime.Now;
-            TodoItem.Color = Yellow;
 
             if (ModelState.IsValid)
             {
