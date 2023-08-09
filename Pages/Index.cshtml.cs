@@ -8,14 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using Kadince_Todo_Ramanujam.Data;
 using Kadince_Todo_Ramanujam.Models;
 using Microsoft.AspNetCore.Http;
+using System.Drawing;
 
 namespace Kadince_Todo_Ramanujam.Pages
 {
     public class IndexModel : PageModel
     {
+        //Filters
         public const string _FilterAll = "_FilterAll";
         public const string _FilterComplete = "_FilterComplete";
         public const string _FilterIncomplete = "_FilterIncomplete";
+
+        //Colors
+        //public Color Yellow = Color.LightYellow;
 
         private readonly Kadince_Todo_Ramanujam.Data.Kadince_Todo_RamanujamContext _context;
 
