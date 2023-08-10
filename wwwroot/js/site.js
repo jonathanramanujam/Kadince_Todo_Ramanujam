@@ -16,6 +16,16 @@ function EditTodoItem(id) {
     }
 }
 
+function RevealNewCard() {
+    let newCard = document.getElementById("TodoNewItem");
+    if (newCard.style.display === "none") {
+        newCard.style.display = "block";
+    }
+    else {
+        newCard.style.display = "none";
+    }
+}
+
 // This should be called on get to set the current filters.
 // Will need to bind filter options to the page
 // Maybe this is just controlling the buttons being solid or outlined?

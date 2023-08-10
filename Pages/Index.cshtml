@@ -8,47 +8,10 @@
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 
-<h1>TODO</h1>
-<hr />
-
-@*New Item Form*@
-<form method="post">
-    <div class="row g-2">
-        <div class="col-auto">
-            <button type="submit" asp-page-handler="CreateTodoItem" class="btn btn-primary" id="btnCreateTodoItem">&#10010;</button>
-        </div>
-        <div class="col-auto">
-            <input asp-for="TodoItem.Title" class="form-control" style="width:200%; margin-bottom:5px;" placeholder="Add a title"/>
-            <span asp-validation-for="TodoItem.Title" class="text-danger"></span>
-            <input asp-for="TodoItem.Details" class="form-control" style="width:200%; margin-bottom:5px;" placeholder="Add some details" />
-            <span asp-validation-for="TodoItem.Details" class="text-danger"> </span>
-            <div class="btn-group-sm btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary rounded-circle" style="background-color:@Model.Purple; color:black">
-                    <input type="radio" asp-for="TodoItem.Color" value="@Model.Purple" id="purple" autocomplete="off">
-                </label>
-                <label class="btn btn-secondary rounded-circle" style="background-color:@Model.Blue; color:black">
-                    <input type="radio" asp-for="TodoItem.Color" value="@Model.Blue" id="blue" autocomplete="off">
-                </label>
-                <label class="btn btn-secondary rounded-circle" style="background-color:@Model.Green; color:black">
-                    <input type="radio" asp-for="TodoItem.Color" value="@Model.Green" id="green" autocomplete="off">
-                </label>
-                <label class="btn btn-secondary rounded-circle" style="background-color:@Model.Yellow; color:black">
-                    <input type="radio" asp-for="TodoItem.Color" value="@Model.Yellow" id="yellow" autocomplete="off" checked>
-                </label>
-                <label class="btn btn-secondary rounded-circle" style="background-color:@Model.Orange; color:black">
-                    <input type="radio" asp-for="TodoItem.Color" value="@Model.Orange" id="orange" autocomplete="off">
-                </label>
-                <label class="btn btn-secondary rounded-circle" style="background-color:@Model.Red; color:black">
-                    <input type="radio" asp-for="TodoItem.Color" value="@Model.Red" id="red" autocomplete="off">
-                </label>
-            </div>
-        </div>
-    </div>
-</form>
-<hr />
-
 @*Filters*@
 <div class="btn-group gradient-buttons" id="btn-filters">
+    @*Add Button*@
+    <button onclick="RevealNewCard()" class="btn btn-primary" style="margin-right:30px" id="btnCreateTodoItem">&#10010; Add</button>
     <form method="post">
         <input type="checkbox" hidden asp-for="FilterAll" checked/>
         @if (HttpContext.Session.GetInt32("_FilterAll") == 1)
@@ -87,8 +50,55 @@
     </form>
 </div>
 
+
 @*Todo Item Cards*@
 <div class="row-cols-md-3 row">
+    @*New Item*@
+    <div class="card card-todo" style="background-color:aliceblue; display:none;" id="TodoNewItem">
+        @*Edit Card*@
+        @*<div style="display:block" class="card-todo-new" id="TodoNewItem">*@
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @*Title*@
+                <div>
+                    <input asp-for="TodoItem.Title" class="form-control m-1" placeholder="Add a title" />
+                    <span asp-validation-for="TodoItem.Title" class="text-danger"></span>
+                </div>
+                @*Details*@
+                <div>
+                    <input asp-for="TodoItem.Details" class="form-control m-1" placeholder="Add some details" />
+                    <span asp-validation-for="TodoItem.Details" class="text-danger"> </span>
+                </div>
+                @*Color Picker*@
+                <div class="btn-group-sm btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary rounded-circle" style="background-color:@Model.Purple; color:black">
+                        <input type="radio" asp-for="TodoItem.Color" value="@Model.Purple" id="purple" autocomplete="off">
+                    </label>
+                    <label class="btn btn-secondary rounded-circle" style="background-color:@Model.Blue; color:black">
+                        <input type="radio" asp-for="TodoItem.Color" value="@Model.Blue" id="blue" autocomplete="off">
+                    </label>
+                    <label class="btn btn-secondary rounded-circle" style="background-color:@Model.Green; color:black">
+                        <input type="radio" asp-for="TodoItem.Color" value="@Model.Green" id="green" autocomplete="off">
+                    </label>
+                    <label class="btn btn-secondary rounded-circle" style="background-color:@Model.Yellow; color:black">
+                        <input type="radio" asp-for="TodoItem.Color" value="@Model.Yellow" id="yellow" autocomplete="off" checked>
+                    </label>
+                    <label class="btn btn-secondary rounded-circle" style="background-color:@Model.Orange; color:black">
+                        <input type="radio" asp-for="TodoItem.Color" value="@Model.Orange" id="orange" autocomplete="off">
+                    </label>
+                    <label class="btn btn-secondary rounded-circle" style="background-color:@Model.Red; color:black">
+                        <input type="radio" asp-for="TodoItem.Color" value="@Model.Red" id="red" autocomplete="off">
+                    </label>
+                </div>
+                <hr />
+                @*Save Button*@
+                <div class="btn-group gradient-buttons">
+                    <button type="submit" asp-page-handler="CreateTodoItem" class="btn btn-success" id="buttonSaveTodoItem">Save</button>
+                </div>
+            </form>
+        @*</div>*@
+    </div>
+
     @foreach (var item in Model.TodoItems)
     {
         <div class="card card-todo @string.Format("fComplete-"+ item.Complete)" style="background-color:@item.Color">
